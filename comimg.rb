@@ -22,11 +22,8 @@ class Comimg
   def run
     Userstream.new(@consumer, @access_token).user{|status|
       puts status.text
-      users = Twitter::Extractor.extract_mentioned_screen_names status.text
-      puts users
-      if users.include? "phelrine"
-        command = Command.new status.text
-        command.execute
+      if Twitter::Extractor.extract_mentioned_screen_names(status.text).include? "phelrine"
+        Command.new(status.text).execute
         upload
       end
     }
